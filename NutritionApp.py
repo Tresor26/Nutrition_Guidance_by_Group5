@@ -1,18 +1,32 @@
 class Baby:
-    def __init__(self, name, age_months, weight_kg):
+    def __init__(self, name, age_months, weight_kg, height_cm):
         self.name = name
         self.age_months = age_months
         self.weight_kg = weight_kg
+        self.height_cm = height_cm
+
     def display_info(self):
         print(f"\n{'Baby Name:':<15}{self.name}")
         print(f"{'Age:':<15}{self.age_months} months")
         print(f"{'Weight:':<15}{self.weight_kg} kg")
+        print(f"{'Height:':<15}{self.height_cm} cm")
 
     def is_underweight(self):
         # Simple threshold values for illustration; these could be based on actual guidelines
         age_weight_thresholds = {3: 5.5, 6: 7.5, 9: 8.5, 12: 9.0, 18: 10.5, 24: 11.5}
         threshold = age_weight_thresholds.get(self.age_months, 8.0)  # Default if age not listed
         return self.weight_kg < threshold
+
+    def calculate_bmi(self):
+        height = self.height_cm / 100
+        print(f"Height in meters = {self.height_cm / 100} m")
+        print(f"Weight in kg = {self.weight_kg} kg")
+        if self.height_cm > 0:
+            bmi = self.weight_kg / (height ** 2)
+            return round(bmi, 2)
+        else:
+            print("Invalid height")
+            return "Invalid Height"
 
 
 class NutritionAdvice:
@@ -58,10 +72,15 @@ def main():
     name = input("Enter your baby's name: ")
     age_months = int(input("Enter your baby's age in months: "))
     weight_kg = float(input("Enter your baby's weight in kg: "))
+    height_cm = float(input("Enter your baby's height in cm: "))
 
     # Create Baby instance
-    baby = Baby(name, age_months, weight_kg)
+    baby = Baby(name, age_months, weight_kg, height_cm)
     baby.display_info()
+
+    # Calculate and display BMI
+    bmi = baby.calculate_bmi()
+    print(f"\n{'BMI:':<15}{bmi}")
 
     # Generate and display nutrition advice
     advice = NutritionAdvice(baby)

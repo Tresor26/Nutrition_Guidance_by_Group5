@@ -2,28 +2,36 @@
 
 This Guidance app helps mothers to understand and manage their baby's nutritional needs.
 The app provides nutrition advice based on the baby's age, weight and height.
-It calculates the Body Mass Index(BMI) and offers meal plans and feeding tips.If the baby is identified as underweight, the app provides additional advice to help improve their nutritional status.
+It calculates the Body Mass Index(BMI) and offers meal plans and feeding tips. If the baby is identified as underweight, the app provides additional advice to help improve their nutritional status.
 
-## Features
+## 1.Features
 
 - Enter Baby Details
 - Display Baby Information
 - Calculate BMI
 - Nutrition Advice
 - Underweight Check
-- Genearl Feeding Tips
+- General Feeding Tips
 
-## Installation
+## 2.Installation
 
 > Clone the repository
+
+- git clone <repository_url>
+
 > Navigate to Project directory
+
+- cd Nutrition_Guidance_by_Group5
+
 > Run the application
 
-## Using The Application
+- python3 NutritionApp.py
+
+## 3.Using The Application
 
 > Start the application
 
-Launch the app using a python interpreter
+- Launch the app using a python interpreter
 
 > Enter Baby's Details
 
@@ -39,15 +47,15 @@ Launch the app using a python interpreter
 - Receive the nutrition advice according to information provided, if the baby is underweight, additional nutritional advices will be provided.
 - General feeding tips for the baby's good health.
 
-## CONTRIBUTION TO THE PROJECT
+## 4.CONTRIBUTION TO THE PROJECT
 
-- Tresor NKURUNZIZA
+- Tresor SHINGIRO NKURUNZIZA
 - Nehemie ISHIMWE
-- Jean MUGABO
+- Jean NGABO MUHIRE
 - Henry Christian Parfait UHIRIWE
 - Eddy IRASETSA
 - Emery BARAME
 
 
 
-                                   ~
+                                   

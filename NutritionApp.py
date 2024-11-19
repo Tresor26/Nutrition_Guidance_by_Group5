@@ -4,7 +4,7 @@ class Baby:
         self.age_months = age_months
         self.weight_kg = weight_kg
     def display_info(self):
-        print(f"\n{'Baby\'s Name:':<15}{self.name}")
+        print(f"\n{'Baby Name:':<15}{self.name}")
         print(f"{'Age:':<15}{self.age_months} months")
         print(f"{'Weight:':<15}{self.weight_kg} kg")
 

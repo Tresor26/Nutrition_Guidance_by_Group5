@@ -68,11 +68,11 @@ class NutritionAdvice:
 
 # Main execution function
 def main():
-    print("Welcome to the Nutrition Advice App for New Mothers!")
-    name = input("Enter your baby's name: ")
-    age_months = int(input("Enter your baby's age in months: "))
-    weight_kg = float(input("Enter your baby's weight in kg: "))
-    height_cm = float(input("Enter your baby's height in cm: "))
+    print("  ========  Welcome to the Nutrition Advice App for New Mothers  ======= ")
+    name = input("please,Enter your baby's name: ")
+    age_months = int(input("please,Enter your baby's age in months: "))
+    weight_kg = float(input("please,Enter your baby's weight in kg: "))
+    height_cm = float(input("please,Enter your baby's height in cm: "))
 
     # Create Baby instance
     baby = Baby(name, age_months, weight_kg, height_cm)

@@ -3,11 +3,10 @@ class Baby:
         self.name = name
         self.age_months = age_months
         self.weight_kg = weight_kg
-
     def display_info(self):
-        print(f"Baby's Name: {self.name}")
-        print(f"Age: {self.age_months} months")
-        print(f"Weight: {self.weight_kg} kg")
+        print(f"\n{'Baby\'s Name:':<15}{self.name}")
+        print(f"{'Age:':<15}{self.age_months} months")
+        print(f"{'Weight:':<15}{self.weight_kg} kg")
 
     def is_underweight(self):
         # Simple threshold values for illustration; these could be based on actual guidelines

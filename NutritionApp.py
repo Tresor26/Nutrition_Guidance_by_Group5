@@ -75,6 +75,7 @@ class BabyNutritionAdvisor:
             "0-3 months": 15,
             "4-11 months": 14,
             "12-24 months": 12,
+            "25-48 months": 10
         }
 
     def get_sleep_recommendation(self, age_months):
@@ -84,6 +85,8 @@ class BabyNutritionAdvisor:
             return self.sleep_guide["4-11 months"]
         elif 12 <= age_months <= 24:
             return self.sleep_guide["12-24 months"]
+        elif 25 <= age_months <= 48:
+            return self.sleep_guide["25-48 months"]
         else:
             return "Age out of range for recommendation."
 

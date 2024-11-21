@@ -1,93 +1,177 @@
-class Baby:
-    def __init__(self, name, age_months, weight_kg, height_cm):
-        self.name = name
-        self.age_months = age_months
-        self.weight_kg = weight_kg
-        self.height_cm = height_cm
+import mysql.connector
+from mysql.connector import Error
 
-    def display_info(self):
-        print(f"\n{'Baby Name:':<15}{self.name}")
-        print(f"{'Age:':<15}{self.age_months} months")
-        print(f"{'Weight:':<15}{self.weight_kg} kg")
-        print(f"{'Height:':<15}{self.height_cm} cm")
+class BabyNutritionAdvisor:
+    def __init__(self):
+        try:
+            self.conn = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="Tresor@26",
+                database="nutrition_app",
+                port=3307
+            )
+            self.cursor = self.conn.cursor()
+            print("Database connection established.")
+        except Error as e:
+            print(f"Error connecting to MySQL: {e}")
+            self.conn = None
+            self.cursor = None
 
-    def is_underweight(self):
-        # Simple threshold values for illustration; these could be based on actual guidelines
-        age_weight_thresholds = {3: 5.5, 6: 7.5, 9: 8.5, 12: 9.0, 18: 10.5, 24: 11.5}
-        threshold = age_weight_thresholds.get(self.age_months, 8.0)  # Default if age not listed
-        return self.weight_kg < threshold
+        # Recommended weight ranges for babies (in kg) based on age in months
+        self.weight_guide = {
+            1: (3.2, 4.2),
+            2: (4.2, 5.4),
+            3: (5.0, 6.5),
+            4: (5.6, 7.3),
+            5: (6.0, 7.8),
+            6: (6.4, 8.2),
+            7: (6.7, 8.5),
+            8: (6.9, 8.8),
+            9: (7.1, 9.0),
+            10: (7.4, 9.2),
+            11: (7.6, 9.4),
+            12: (7.8, 9.5),
+            13: (8.0, 9.7),
+            14: (8.2, 9.9),
+            15: (8.4, 10.2),
+            16: (8.6, 10.4),
+            17: (8.8, 10.6),
+            18: (9.0, 10.8),
+            19: (9.2, 11.0),
+            20: (9.4, 11.2),
+            21: (9.6, 11.4),
+            22: (9.8, 11.6),
+            23: (10.0, 11.8),
+            24: (10.2, 12.0),
+            25: (10.4, 12.2),
+            26: (10.6, 12.4),
+            27: (10.8, 12.6),
+            28: (11.0, 12.8),
+            29: (11.2, 13.0),
+            30: (11.4, 13.2),
+            31: (11.6, 13.4),
+            32: (11.8, 13.6),
+            33: (12.0, 13.8),
+            34: (12.2, 14.0),
+            35: (12.4, 14.2),
+            36: (12.6, 14.4),
+            37: (12.8, 14.6),
+            38: (13.0, 14.8),
+            39: (13.2, 15.0),
+            40: (13.4, 15.2),
+            41: (13.6, 15.4),
+            42: (13.8, 15.6),
+            43: (14.0, 15.8),
+            44: (14.2, 16.0),
+            45: (14.4, 16.2),
+            46: (14.6, 16.4),
+            47: (14.8, 16.6),
+            48: (15.0, 16.8)
+        }
 
-    def calculate_bmi(self):
-        height = self.height_cm / 100
-        print(f"Height in meters = {self.height_cm / 100} m")
-        print(f"Weight in kg = {self.weight_kg} kg")
-        if self.height_cm > 0:
-            bmi = self.weight_kg / (height ** 2)
-            return round(bmi, 2)
+        # Recommended sleep hours for babies (in hours per day)
+        self.sleep_guide = {
+            "0-3 months": 15,
+            "4-11 months": 14,
+            "12-24 months": 12,
+        }
+
+    def get_sleep_recommendation(self, age_months):
+        if 0 <= age_months <= 3:
+            return self.sleep_guide["0-3 months"]
+        elif 4 <= age_months <= 11:
+            return self.sleep_guide["4-11 months"]
+        elif 12 <= age_months <= 24:
+            return self.sleep_guide["12-24 months"]
         else:
-            print("Invalid height")
-            return "Invalid Height"
+            return "Age out of range for recommendation."
 
+    def get_weight_range(self, age_months):
+        return self.weight_guide.get(age_months, "No data for this age.")
 
-class NutritionAdvice:
-    def __init__(self, baby):
-        self.baby = baby
-
-    def generate_meal_plan(self):
-        if self.baby.age_months < 6:
-            return "Exclusive breastfeeding is recommended up to 6 months."
-        elif 6 <= self.baby.age_months < 12:
-            return "Start introducing mashed fruits and vegetables, rice porridge, and lentils."
-        elif 12 <= self.baby.age_months < 24:
-            return "Include soft foods like rice, beans, yogurt, eggs, and small pieces of soft vegetables."
+    def give_advice(self, name, age_months, weight, sleep_hours):
+        advice_list = []
+        # Weight advice
+        weight_range = self.get_weight_range(age_months)
+        if weight_range == "No data for this age.":
+            advice_list.append("We don't have weight data for this age group.")
+        elif weight < weight_range[0]:
+            advice_list.append(
+                f"Weight Alert: {name}'s weight ({weight}kg) is below the recommended range ({weight_range[0]}kg - {weight_range[1]}kg). "
+                "\nAdd more protein and high-calorie meals, such as mashed sweet potatoes, avocados, and banana porridge."
+            )
+        elif weight > weight_range[1]:
+            advice_list.append(
+                f"Weight Alert: {name}'s weight ({weight}kg) is above the recommended range ({weight_range[0]}kg - {weight_range[1]}kg). ""\nConsult a pediatrician for a detailed assessment."
+            )
         else:
-            return "Balanced diet including grains, vegetables, fruits, proteins, and dairy."
+            advice_list.append(f"Weight: {name}'s weight ({weight}kg) is within the healthy range.")
 
-    def generate_underweight_advice(self):
-        return ("Since your baby is underweight, consider adding high-calorie, nutrient-dense foods:\n"
-                "1. Mashed avocado for healthy fats.\n"
-                "2. Peanut butter (in small amounts) for protein and healthy fats.\n"
-                "3. Full-fat yogurt or dairy products.\n"
-                "4. Sweet potatoes and oats for additional carbohydrates.\n"
-                "5. Consult a pediatrician for specialized advice if possible.")
+        # Sleep advice
+        recommended_sleep = self.get_sleep_recommendation(age_months)
+        if isinstance(recommended_sleep, int):
+            if sleep_hours < recommended_sleep:
+                advice_list.append(
+                    f"Sleep Alert: {name} is sleeping {sleep_hours} hours, below the recommended {recommended_sleep} hours. "
+                    "\nCreate a consistent bedtime routine, limit distractions, and ensure the baby has a comfortable sleeping environment."
+                )
+            else:
+                advice_list.append(f"Sleep: {name} is getting enough sleep ({sleep_hours} hours).")
+        else:
+            advice_list.append(recommended_sleep)
 
-    def generate_advice(self):
-        print("\nNutrition Advice:")
-        meal_plan = self.generate_meal_plan()
-        print(meal_plan)
+        # General advice
+        advice_list.append(f"\n=== Meal Plan Advice for {name} ===\n")
+        advice_list.append("Ensure the baby is hydrated throughout the day.")
+        advice_list.append("Introduce a variety of fruits and vegetables gradually.")
+        advice_list.append("Avoid processed foods or foods with added sugar or salt.")
+        advice_list.append("Engage in play and tummy time to promote development.")
 
-        if self.baby.is_underweight():
-            print("\nAdditional Advice for Low Weight:")
-            print(self.generate_underweight_advice())
+        advice_text = "\n".join(advice_list)
+        print(f"\n=== Advice for {name} ===\n{advice_text}")
+        return advice_text
 
-        print("\nGeneral Feeding Tips:")
-        print("1. Wash hands before preparing food.")
-        print("2. Feed the baby small portions several times a day.")
-        print("3. Avoid sugary or salty foods.")
+    def save_to_database(self, name, age_months, weight, sleep_hours, advice):
+        query = """
+        INSERT INTO baby_profiles (name, age_months, weight, sleep_hours, advice)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        self.cursor.execute(query, (name, age_months, weight, sleep_hours, advice))
+        self.conn.commit()
+        print(f"Profile for {name} saved to the database.")
+
+    def close_connection(self):
+        if self.conn:
+            self.cursor.close()
+            self.conn.close()
+            print("Database connection closed.")
 
 
-# Main execution function
 def main():
-    print("  ========  Welcome to the Nutrition Advice App for New Mothers  ======= ")
-    name = input("please,Enter your baby's name: ")
-    age_months = int(input("please,Enter your baby's age in months: "))
-    weight_kg = float(input("please,Enter your baby's weight in kg: "))
-    height_cm = float(input("please,Enter your baby's height in cm: "))
+    advisor = BabyNutritionAdvisor()
 
-    # Create Baby instance
-    baby = Baby(name, age_months, weight_kg, height_cm)
-    baby.display_info()
+    while True:
+        print("\n=== Baby Nutrition Tracker ===")
+        name = input("Enter Baby's Name: ")
+        age_months = int(input("Enter Baby's Age (in Months): "))
+        weight = float(input("Enter Baby's Weight (in kg): "))
+        sleep_hours = float(input("Enter Baby's Daily Sleep Hours: "))
 
-    # Calculate and display BMI
-    bmi = baby.calculate_bmi()
-    print(f"\n{'BMI:':<15}{bmi}")
+        # Generate advice
+        advice = advisor.give_advice(name, age_months, weight, sleep_hours)
 
-    # Generate and display nutrition advice
-    advice = NutritionAdvice(baby)
-    advice.generate_advice()
+        # Save to database
+        advisor.save_to_database(name, age_months, weight, sleep_hours, advice)
+
+        # Continue or exit
+        cont = input("\nWould you like to add another baby? (yes/no): ").strip().lower()
+        if cont != "yes":
+            print("Thank you for using the Baby Nutrition Tracker!")
+            break
+
+    advisor.close_connection()
 
 
-# Run the app
 if __name__ == "__main__":
     main()
-# bullshit

@@ -155,11 +155,12 @@ def main():
     advisor = BabyNutritionAdvisor()
 
     while True:
+        print ("  ----  VIDA BITE   ----  ")
         print("\n=== Baby Nutrition Tracker ===")
-        name = input("Enter Baby's Name: ")
-        age_months = int(input("Enter Baby's Age (in Months): "))
-        weight = float(input("Enter Baby's Weight (in kg): "))
-        sleep_hours = float(input("Enter Baby's Daily Sleep Hours: "))
+        name = input("please, Enter Baby's Name: ")
+        age_months = int(input("please, Enter Baby's Age (in Months): "))
+        weight = float(input("please, Enter Baby's Weight (in kg): "))
+        sleep_hours = float(input("please, Enter Baby's Daily Sleep Hours: "))
 
         # Generate advice
         advice = advisor.give_advice(name, age_months, weight, sleep_hours)

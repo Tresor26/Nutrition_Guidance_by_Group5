@@ -8,11 +8,11 @@ class BabyNutritionAdvisor:
                 host="localhost",
                 user="root",
                 password="Tresor@26",
-                database="nutrition_app",
                 port=3307
             )
             self.cursor = self.conn.cursor()
-            print("Database connection established.")
+            print("Connected to MySQL server.")
+            self.setup_database()
         except Error as e:
             print(f"Error connecting to MySQL: {e}")
             self.conn = None
@@ -77,7 +77,27 @@ class BabyNutritionAdvisor:
             "12-24 months": 12,
             "25-48 months": 10
         }
-    
+
+    def setup_database(self):
+        """Creates the database and table if they don't exist."""
+        try:
+            self.cursor.execute("CREATE DATABASE IF NOT EXISTS nutrition_app")
+            self.cursor.execute("USE nutrition_app")
+            self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS baby_profiles (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                age_months INT NOT NULL,
+                weight FLOAT NOT NULL,
+                sleep_hours FLOAT NOT NULL,
+                advice TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            """)
+            print("Database and table are ready.")
+        except Error as e:
+            print(f"Error setting up database: {e}")
+
     def get_sleep_recommendation(self, age_months):
         if 0 <= age_months <= 3:
             return self.sleep_guide["0-3 months"]

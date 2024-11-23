@@ -78,6 +78,17 @@ class BabyNutritionAdvisor:
             "25-48 months": 10
         }
 
+        # Vaccine schedule by age (in months)
+        self.vaccine_guide = {
+            1: ["BCG", "Hepatitis B"],
+            2: ["Polio", "Tetanus", "Rotavirus(Dose 1 of 3)"],
+            4: ["Polio(IPV)", "H. influenzae type b (Hib)", "Pneumococcal", "Rotavirus(Dose 2 of 3)"],
+            6: ["Influenza (flu)", "Coronavirus disease 2019 (COVID-19)", "Rotavirus(Dose 3 of 3)"],
+            9: ["Chicken Pox(Varicela) Dose 1"],
+            12: ["Measles, mumps, rubella (MMR)"],
+            18: ["Vitamin A", "Deworming", "Hepatitis A (HepA)"],
+        }
+
     def get_sleep_recommendation(self, age_months):
         if 0 <= age_months <= 3:
             return self.sleep_guide["0-3 months"]

@@ -130,6 +130,7 @@ class BabyNutritionAdvisor:
         advice_list.append("Introduce a variety of fruits and vegetables gradually.")
         advice_list.append("Avoid processed foods or foods with added sugar or salt.")
         advice_list.append("Engage in play and tummy time to promote development.")
+        advice_list.append("Keep Up with medical check-Ups,vaccinations")
 
         advice_text = "\n".join(advice_list)
         print(f"\n=== Advice for {name} ===\n{advice_text}")

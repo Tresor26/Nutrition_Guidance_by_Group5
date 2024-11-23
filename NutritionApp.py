@@ -104,6 +104,10 @@ class BabyNutritionAdvisor:
     def get_weight_range(self, age_months):
         return self.weight_guide.get(age_months, "No data for this age.")
 
+    def get_vaccine_recommendation(self, age_months):
+        applicable_vaccines = [vaccine for age, vaccine in self.vaccine_guide.items() if age <= age_months]
+        return applicable_vaccines[-1] if applicable_vaccines else "No vaccines available for this age."
+
     def give_advice(self, name, age_months, weight, sleep_hours):
         advice_list = []
         # Weight advice
@@ -134,6 +138,11 @@ class BabyNutritionAdvisor:
                 advice_list.append(f"Sleep: {name} is getting enough sleep ({sleep_hours} hours).")
         else:
             advice_list.append(recommended_sleep)
+
+        # Vaccine advice
+        vaccines_due = self.get_vaccine_recommendation(age_months)
+        advice_list.append(
+            f"Vaccines: By {age_months} months, {name} should have received: {', '.join(vaccines_due)}.")
 
         # General advice
         advice_list.append(f"\n=== Meal Plan Advice for {name} ===\n")
@@ -191,10 +200,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-#Please, Enter Baby's Name: Emma
-#Please, Enter Baby's Age (in Months): 6
-#Please, Enter Baby's Weight (in kg): 5.5
-#Please, Enter Baby's Daily Sleep Hours: 15
 
 
 

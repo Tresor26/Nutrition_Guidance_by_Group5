@@ -78,7 +78,9 @@ class BabyNutritionAdvisor:
             "25-48 months": 10
         }
 
-        # Vaccine schedule by age (in months)
+        # Vaccine guide: Maps baby's age (in months) to recommended vaccines.
+        # Includes initial vaccines for newborns, follow-up doses, seasonal vaccines,
+        # and nutritional supplements based on age-specific health needs.
         self.vaccine_guide = {
             1: ["BCG", "Hepatitis B"],
             2: ["Polio", "Tetanus", "Rotavirus(Dose 1 of 3)"],

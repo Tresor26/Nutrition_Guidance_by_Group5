@@ -179,3 +179,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+#Please, Enter Baby's Name: Emma
+#Please, Enter Baby's Age (in Months): 6
+#Please, Enter Baby's Weight (in kg): 5.5
+#Please, Enter Baby's Daily Sleep Hours: 12
+
+
+
+
+
